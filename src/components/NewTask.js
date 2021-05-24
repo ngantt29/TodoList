@@ -7,11 +7,12 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 const NewTask = (props) => {
-  const { checked, handleAddWork, detailData } = props;
+  const { handleAddWork, detailData, handleUpdateWork } = props;
 
   const formDefaultValue = useMemo(() => {
     if (JSON.stringify(detailData) !== '{}') {
       return {
+        id: detailData.id,
         titleTask: detailData.titleTask,
         description: detailData.description,
         dueDate: new Date(detailData.dueDate),
@@ -38,26 +39,32 @@ const NewTask = (props) => {
   });
 
   const onSubmitForm = (value) => {
-    console.log("value: ", value);
-    if (!checked) {
+    // console.log("value: ", value);
+    if (!detailData.id) {
       handleAddWork(value);
       reset();
+    } else {
+      handleUpdateWork(value);
     }
   };
   
   return (
     <div className="new-task border-right">
-      <h1 className="title text-center m-b-20">New Task</h1>
+      <h1 className="title text-center m-b-20">
+        {JSON.stringify(detailData) !== "{}" ? "" : "New Task"}
+      </h1>
       <form className="add-task m-b-20">
-        <input
-          className="full-width padding-0-10 m-b-20"
-          placeholder="Add new task..."
-          {...register("titleTask", { required: true })}
-        />{" "}
-        <br />
-        {errors.titleTask && errors.titleTask.type === "required" && (
-          <span>Title task is required</span>
-        )}
+        <div className="m-b-20">
+          <input
+            className="full-width padding-0-10"
+            placeholder="Add new task..."
+            {...register("titleTask", { required: true })}
+          />{" "}
+          <br />
+          {errors.titleTask && errors.titleTask.type === "required" && (
+            <span style={{ color: "red" }}>Title task is required</span>
+          )}
+        </div>
         <label>
           <b>Description</b>
         </label>
@@ -79,7 +86,7 @@ const NewTask = (props) => {
                   selected={value}
                   onChange={(event) => onChange(event)}
                   dateFormat="dd/MM/yyyy"
-                  
+                  minDate={new Date()}
                 />
               )}
               control={control}
@@ -112,21 +119,22 @@ const NewTask = (props) => {
           type="submit"
           onClick={handleSubmit(onSubmitForm)}
         >
-          {JSON.stringify(detailData) !== '{}' ? "Update" : "Add"}
+          {JSON.stringify(detailData) !== "{}" ? "Update" : "Add"}
         </button>
       </form>
     </div>
   );
 };
 NewTask.propTypes = {
-  checked: PropTypes.bool,
+  // checked: PropTypes.bool,
   handleAddWork: PropTypes.func,
   formAdd: PropTypes.any,
+  handleUpdateWork: PropTypes.func,
 };
 NewTask.defaultProps = {
-  checked: false,
-  options: [],
+  // checked: false,
   handleAddWork: () => {},
-  detailData: {}
+  detailData: {},
+  handleUpdateWork: () => {},
 };
 export default React.memo(NewTask)
