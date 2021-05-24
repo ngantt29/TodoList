@@ -1,0 +1,65 @@
+@import 'general';
+* {
+  box-sizing: border-box;
+}
+.container {
+  width: 80%;
+  margin: auto;
+}
+.home {
+  .title {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+.new-task {
+  width: 45%;
+  padding: 0 40px;
+  &__date {
+    width: 45%;
+    margin-right: 20px;
+  }
+  &__priority {
+    width: 45%;
+  }
+}
+.todo-list {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  width: 55%;
+  &__body {
+    padding: 0 40px;
+  }
+  &__item {
+    margin-bottom: 20px;
+    &__header {
+      border-bottom: 1px solid black;
+      padding: 15px;
+    }
+  }
+  &__bottom {
+    background: #e0e0e0;
+    padding: 23px 20px;
+  }
+  .new-task {
+    width: 100%;
+    border: none;
+  }
+}
+.react-datepicker__input-container input {
+  width: 100%;
+}
+@media screen and (max-width: 991px) {
+  .home {
+    display: block;
+  }
+  .new-task {
+    border-right: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+  }
+  .todo-list {
+    width: 100%;
+  }
+}
