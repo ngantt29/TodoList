@@ -40,6 +40,7 @@ const ToDoList = (props) => {
                     onChange={() => {
                       handleChecked(item);
                     }}
+                    checked={listChecked.includes(item)}
                   />
                   {item.titleTask}
                 </div>

@@ -79,7 +79,7 @@ const NewTask = (props) => {
                   selected={value}
                   onChange={(event) => onChange(event)}
                   dateFormat="dd/MM/yyyy"
-                  
+                  minDate={new Date()}
                 />
               )}
               control={control}
@@ -112,7 +112,7 @@ const NewTask = (props) => {
           type="submit"
           onClick={handleSubmit(onSubmitForm)}
         >
-          {JSON.stringify(detailData) !== '{}' ? "Update" : "Add"}
+          {JSON.stringify(detailData) !== "{}" ? "Update" : "Add"}
         </button>
       </form>
     </div>

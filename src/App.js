@@ -20,10 +20,6 @@ const App = () => {
     setDataList(_dataList);
     setListChecked([]);
   }, []);
-  
-  useEffect(() => {
-    handleSearch();
-  }, [keyWord]);
    
   const handleChecked = (record) => {
     let _listChecked = [...listChecked];
@@ -35,7 +31,6 @@ const App = () => {
     } else {
       _listChecked.push(record);
     }
-    console.log("_listChecked: ", _listChecked);
     setListChecked(_listChecked);
   };
   
@@ -51,7 +46,8 @@ const App = () => {
   };
 
   const handleSearch = () => {
-    const results = dataList.filter((item) =>
+    let _dataList = JSON.parse(localStorage.getItem("dataList"));
+    const results = _dataList.filter((item) =>
       item.titleTask.toLowerCase().includes(keyWord.toLowerCase())
     );
     setDataList(results);
@@ -68,7 +64,6 @@ const App = () => {
   };
 
   const handleRemove = (record) => {
-    console.log('record:', record);
     let _dataList = [...dataList];
     _dataList = _dataList.filter((item) => record.id !== item.id);
     setDataList(_dataList);
@@ -76,13 +71,10 @@ const App = () => {
   };
 
   const handleRemoveAll = (listChecked) => {
-    // console.log("hihih", listChecked);
     let _dataList = [...dataList];
-    // console.log('record', record);
     _dataList = _dataList.filter((item) => 
       !listChecked.includes(item)
     )
-    console.log("_dataList", _dataList);
     setListChecked([]);
     setDataList(_dataList);
     localStorage.setItem("dataList", JSON.stringify(_dataList));
