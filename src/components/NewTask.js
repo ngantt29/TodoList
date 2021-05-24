@@ -54,15 +54,17 @@ const NewTask = (props) => {
         {JSON.stringify(detailData) !== "{}" ? "" : "New Task"}
       </h1>
       <form className="add-task m-b-20">
-        <input
-          className="full-width padding-0-10 m-b-20"
-          placeholder="Add new task..."
-          {...register("titleTask", { required: true })}
-        />{" "}
-        <br />
-        {errors.titleTask && errors.titleTask.type === "required" && (
-          <span>Title task is required</span>
-        )}
+        <div className="m-b-20">
+          <input
+            className="full-width padding-0-10"
+            placeholder="Add new task..."
+            {...register("titleTask", { required: true })}
+          />{" "}
+          <br />
+          {errors.titleTask && errors.titleTask.type === "required" && (
+            <span style={{ color: "red" }}>Title task is required</span>
+          )}
+        </div>
         <label>
           <b>Description</b>
         </label>
