@@ -39,7 +39,7 @@ const NewTask = (props) => {
   });
 
   const onSubmitForm = (value) => {
-    console.log("value: ", value);
+    // console.log("value: ", value);
     if (!detailData.id) {
       handleAddWork(value);
       reset();

@@ -15,11 +15,7 @@ const ToDoList = (props) => {
     handleChange,
     keyWord,
     handleUpdateWork,
-    // checked
   } = props;
-  // useEffect(() => {
-  //   console.log("detailData", detailData);
-  // }, [detailData]);
   return (
     <div className="todo-list">
       <div className="todo-list__body">

@@ -46,7 +46,7 @@ const App = () => {
     } else {
       setDetailData(record);
     }
-    console.log(new Date(record.dueDate));
+    // console.log(new Date(record.dueDate));
   };
 
   const handleAddWork = (value) => {
@@ -54,13 +54,13 @@ const App = () => {
     value["id"] = _dataList.length + 1;
     _dataList.unshift(value);
     const _dataListSorted = _dataList.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-    console.log("_dataListSorted",_dataListSorted);
+    // console.log("_dataListSorted",_dataListSorted);
     setDataList(_dataListSorted);
     localStorage.setItem("dataList", JSON.stringify(_dataListSorted));
   }
 
   const handleUpdateWork = (value) => {
-    console.log('update', detailData);
+    // console.log('update', detailData);
     let _dataList = [...dataList];
     _dataList = _dataList.map(item => {
       if (item.id === detailData.id) {
@@ -74,8 +74,9 @@ const App = () => {
     })
     localStorage.setItem("dataList", JSON.stringify(_dataList));
     const _dataListSorted = _dataList.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-    console.log("_dataListSorted", _dataListSorted);
-    setDataList(_dataList);
+    // console.log("_dataListSorted", _dataListSorted);
+    setDataList(_dataListSorted);
+    localStorage.setItem("dataList", JSON.stringify(_dataListSorted));
   };
 
   const handleChange = (e) => {
