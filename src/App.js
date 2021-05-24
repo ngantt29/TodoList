@@ -7,8 +7,10 @@ import './assets/scss/_style.scss'
 const App = () => {
   const [dataList, setDataList] = useState([]);
   const [detailData, setDetailData] = useState({});
-  const [listChecked, setListChecked] = useState([])
+  const [listChecked, setListChecked] = useState([]);
+  // const [checked, setChecked] = useState(false)
   const [keyWord, setKeyWord] = useState('');
+  // const [allowUpdate, setAllowUpdate] = useState(false)
 
   useEffect(() => {
     let _dataList = [];
@@ -21,7 +23,7 @@ const App = () => {
     setListChecked([]);
   }, []);
    
-  const handleChecked = (record) => {
+  const handleChecked = (record,e) => {
     let _listChecked = [...listChecked];
     if (_listChecked.find((item) => record.id === item.id)) {
       _listChecked.splice(
@@ -34,13 +36,48 @@ const App = () => {
     setListChecked(_listChecked);
   };
   
+  const handleDetail = (record) => {
+    if (JSON.stringify(detailData) !== "{}") {
+      if (detailData.id === record.id) {
+        setDetailData({});
+      } else {
+        setDetailData(record);
+      }
+    } else {
+      setDetailData(record);
+    }
+    console.log(new Date(record.dueDate));
+  };
+
   const handleAddWork = (value) => {
     const _dataList = [...dataList];
     value["id"] = _dataList.length + 1;
     _dataList.unshift(value);
-    localStorage.setItem("dataList", JSON.stringify(_dataList));
-    setDataList(_dataList);
+    const _dataListSorted = _dataList.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    console.log("_dataListSorted",_dataListSorted);
+    setDataList(_dataListSorted);
+    localStorage.setItem("dataList", JSON.stringify(_dataListSorted));
   }
+
+  const handleUpdateWork = (value) => {
+    console.log('update', detailData);
+    let _dataList = [...dataList];
+    _dataList = _dataList.map(item => {
+      if (item.id === detailData.id) {
+        item.titleTask = value.titleTask;
+        item.description = value.description;
+        item.dueDate = value.dueDate;
+        item.priority = value.priority;
+        setDetailData(item);
+      }
+      return item;
+    })
+    localStorage.setItem("dataList", JSON.stringify(_dataList));
+    const _dataListSorted = _dataList.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    console.log("_dataListSorted", _dataListSorted);
+    setDataList(_dataList);
+  };
+
   const handleChange = (e) => {
     setKeyWord(e.target.value);
   };
@@ -52,16 +89,6 @@ const App = () => {
     );
     setDataList(results);
   }
-  const handleDetail = (record) => {
-    if (JSON.stringify(detailData) !== "{}") {
-      setDetailData({});
-    } else {
-      let workDetail = record.id
-        ? dataList.find((item) => item.id === record.id)
-        : null;
-      setDetailData(workDetail);
-    }
-  };
 
   const handleRemove = (record) => {
     let _dataList = [...dataList];
@@ -81,8 +108,14 @@ const App = () => {
   };
   return (
     <div className="home d-flex container border">
-      <NewTask options={OPTIONS_PRIORITY} handleAddWork={handleAddWork} />
+      <NewTask
+        options={OPTIONS_PRIORITY}
+        handleAddWork={handleAddWork}
+        // handleUpdateWork={handleUpdateWork}
+        // allowUpdate={allowUpdate}
+      />
       <ToDoList
+        // checked={checked}
         handleChecked={handleChecked}
         dataList={dataList}
         detailData={detailData}
@@ -93,6 +126,7 @@ const App = () => {
         handleChange={handleChange}
         handleSearch={handleSearch}
         keyWord={keyWord}
+        handleUpdateWork={handleUpdateWork}
       />
     </div>
   );

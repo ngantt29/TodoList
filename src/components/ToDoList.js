@@ -13,7 +13,9 @@ const ToDoList = (props) => {
     handleRemoveAll,
     handleSearch,
     handleChange,
-    keyWord
+    keyWord,
+    handleUpdateWork,
+    // checked
   } = props;
   // useEffect(() => {
   //   console.log("detailData", detailData);
@@ -40,7 +42,7 @@ const ToDoList = (props) => {
                     onChange={() => {
                       handleChecked(item);
                     }}
-                    checked={listChecked.includes(item)}
+                    checked={listChecked.includes(item) && true}
                   />
                   {item.titleTask}
                 </div>
@@ -68,7 +70,11 @@ const ToDoList = (props) => {
               </div>
               {detailData.id === item.id && (
                 <div className="todo-list__item__body">
-                  <NewTask detailData={detailData} />
+                  <NewTask
+                    detailData={detailData}
+                    handleUpdateWork={handleUpdateWork}
+                    // checked={checked}
+                  />
                 </div>
               )}
             </div>
@@ -106,5 +112,6 @@ ToDoList.propTypes = {
   handleSearch: PropTypes.func,
   handleChange: PropTypes.func,
   keyWord: PropTypes.string,
+  handleUpdateWork: PropTypes.func,
 };
 export default React.memo(ToDoList)
